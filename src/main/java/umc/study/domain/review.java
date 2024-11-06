@@ -1,9 +1,6 @@
 package umc.study.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import umc.study.domain.common.base_entity;
 
@@ -21,4 +18,8 @@ public class review extends base_entity {
     private String title;
 
     private Float score;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member; // 이 부분 추가
 }
