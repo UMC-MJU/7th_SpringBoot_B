@@ -19,10 +19,10 @@ public class Mission extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column()
     private Integer reward;
 
-    @Column(nullable = false)
+    @Column()
     private LocalDate deadline;
 
     @Column(nullable = false, length = 2000)
