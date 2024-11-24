@@ -1,4 +1,4 @@
-package com.example.study.service;
+package com.example.study.service.store;
 
 import com.example.study.domain.Store;
 
