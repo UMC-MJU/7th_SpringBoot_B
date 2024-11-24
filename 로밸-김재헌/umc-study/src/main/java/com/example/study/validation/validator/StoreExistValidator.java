@@ -34,6 +34,6 @@ public class StoreExistValidator implements ConstraintValidator<ExistStore, Long
             context.buildConstraintViolationWithTemplate(ErrorStatus.STORE_NOT_FOUND.toString()).addConstraintViolation();
         }
 
-        return false;
+        return isValid;
     }
 }
