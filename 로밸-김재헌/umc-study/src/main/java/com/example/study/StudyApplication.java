@@ -1,6 +1,6 @@
 package com.example.study;
 
-import com.example.study.service.StoreQueryService;
+import com.example.study.service.store.StoreQueryService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
