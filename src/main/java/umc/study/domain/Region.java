@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import umc.study.domain.common.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,5 +22,5 @@ public class Region extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "region", cascade = CascadeType.PERSIST)
-    private List<Store> storeList;
+    private List<Store> storeList = new ArrayList<>();
 }
