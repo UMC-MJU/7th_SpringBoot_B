@@ -43,7 +43,7 @@ public class Store extends BaseEntity {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", score=" + score +
-                ", region=" + (region != null ? region.getName() : "N/A") + // region의 이름 출력
+//                ", region=" + (region != null ? region.getName() : "N/A") + // region의 이름 출력
                 '}';
     }
 

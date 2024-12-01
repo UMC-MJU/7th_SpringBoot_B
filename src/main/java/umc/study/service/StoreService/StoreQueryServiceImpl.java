@@ -3,6 +3,7 @@ package umc.study.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.study.apiPayload.code.status.ErrorStatus;
@@ -15,6 +16,7 @@ import umc.study.repository.MemberRepository;
 import umc.study.repository.MissionRepository;
 import umc.study.repository.ReviewRepository;
 import umc.study.repository.StoreRepository.StoreRepository;
+import umc.study.web.dto.MissionResponseDTO;
 import umc.study.web.dto.StoreRequestDTO;
 import umc.study.web.dto.StoreResponseDTO;
 
@@ -103,6 +105,22 @@ public class StoreQueryServiceImpl implements StoreQueryService{
                 .regionName(store.getRegion().getName())
                 .build();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<MissionResponseDTO> getStoreMissions(Long storeId, int page, int size) {
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new IllegalArgumentException("가게가 존재하지 않습니다."));
+
+        Pageable pageable = PageRequest.of(page, size);
+        return missionRepository.findByStore(store, pageable)
+                .map(mission -> MissionResponseDTO.builder()
+                        .missionId(mission.getId())
+                        .reward(mission.getReward())
+                        .deadline(mission.getDeadline())
+                        .build());
+    }
+
 
 
 }
