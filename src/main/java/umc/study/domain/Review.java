@@ -36,4 +36,9 @@ public class Review extends BaseEntity {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ReviewImage> reviewImageList;
+
+    // setter 추가
+    public void setReviewImageList(List<ReviewImage> reviewImageList) {
+        this.reviewImageList = reviewImageList;
+    }
 }

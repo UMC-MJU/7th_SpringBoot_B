@@ -3,9 +3,11 @@ package umc.study.web.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import umc.study.domain.enums.Gender;
+import umc.study.validation.annotation.ExistCategories;
 
 import java.util.List;
 
@@ -32,11 +34,14 @@ public class MemberRequestDTO {
         @NotNull(message = "Birth day is mandatory")
         private Integer birthDay;
 
+        @Size(min = 5, max = 12)
         @NotBlank(message = "Address is mandatory")
         private String address;
 
+        @Size(min = 5, max = 12)
         private String specAddress;
 
+        @ExistCategories
         @NotNull(message = "Prefer categories are mandatory")
         private List<Long> preferCategory;
 
