@@ -1,5 +1,6 @@
 package com.example.study.service.mission;
 
+import com.example.study.converter.MissionConverter;
 import com.example.study.domain.Member;
 import com.example.study.domain.MemberMission;
 import com.example.study.domain.Mission;
@@ -12,13 +13,18 @@ import com.example.study.repository.mission.MissionRepository;
 import com.example.study.service.store.StoreCommandService;
 import com.example.study.validation.annotation.MissionStartAble;
 import com.example.study.web.dto.MemberMissionRequest;
+import com.example.study.web.dto.MemberMissionResponse;
 import com.example.study.web.dto.MissionRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.LinkedList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +78,19 @@ public class MissionServiceImpl implements MissionService{
     @Override
     public boolean exist(Member member, Mission mission){
         return memberMissionRepository.existsByMemberAndMission(member, mission);
+    }
+
+    @Override
+    public Page<MemberMissionResponse.memberMissionPreview> getMissions(Member member, String status, int page) {
+        MissionStatus missionStatus = MissionStatus.from(status);
+        Page<MemberMission> memberMissionPage = memberMissionRepository.findAllByMemberAndStatus(
+                member, missionStatus, PageRequest.of(page, 10));
+
+        List<MemberMissionResponse.memberMissionPreview> previews =  memberMissionPage.stream()
+                .map(MissionConverter::toMemberMissionPreview)
+                .toList();
+
+        return new PageImpl<>(previews, memberMissionPage.getPageable(), memberMissionPage.getTotalElements());
     }
 
     public Mission find(Long id){
