@@ -6,6 +6,9 @@ import com.example.study.domain.enums.MemberStatus;
 import com.example.study.domain.enums.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@DynamicInsert @DynamicUpdate //insert와 update 시 null 인 경우는 그냥 쿼리를 보내지 않도록..
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -44,9 +48,10 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = true, length = 50)
     private String email;
 
+//    @ColumnDefault("0") // 이렇게 초기값 초기화도 가능.
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer point;
 
