@@ -3,6 +3,7 @@ package com.example.study.domain;
 import com.example.study.domain.common.BaseEntity;
 import com.example.study.domain.enums.Gender;
 import com.example.study.domain.enums.MemberStatus;
+import com.example.study.domain.enums.Role;
 import com.example.study.domain.enums.SocialType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,6 +27,15 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(nullable = false, length = 20)
     private String name;
 
@@ -48,9 +58,6 @@ public class Member extends BaseEntity {
 
     private LocalDate inactiveDate;
 
-    @Column(nullable = true, length = 50)
-    private String email;
-
 //    @ColumnDefault("0") // 이렇게 초기값 초기화도 가능.
     @Column(nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer point;
@@ -66,4 +73,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<MemberMission> memberMissionList = new ArrayList<>();
+
+
+    public void encodePassword(String password) {
+        this.password = password;
+    }
 }
