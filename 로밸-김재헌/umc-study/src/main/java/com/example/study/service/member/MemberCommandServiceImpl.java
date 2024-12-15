@@ -12,6 +12,7 @@ import com.example.study.repository.FoodCategoryRepository;
 import com.example.study.repository.member.MemberRepository;
 import com.example.study.web.dto.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +25,15 @@ public class MemberCommandServiceImpl implements MemberCommandService{
     private final MemberRepository memberRepository;
     private final FoodCategoryRepository foodCategoryRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     @Transactional
-    public Member joinMember(MemberRequestDto.JoinDto request){
+    public Member joinMember(MemberRequestDto.JoinDto request) {
 
         Member newMember = MemberConverter.toMember(request);
+
+        newMember.encodePassword(passwordEncoder.encode(request.getPassword()));
 
         List<FoodCategory> foodCategories = request.getPreferCategory().stream()
                 .map(category -> {
