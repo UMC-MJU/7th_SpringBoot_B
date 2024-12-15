@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import umc.study.domain.enums.Gender;
+import umc.study.domain.enums.Role;
 import umc.study.validation.annotation.ExistCategories;
 
 import java.util.List;
@@ -48,6 +49,12 @@ public class MemberRequestDTO {
         @NotBlank(message = "Email is mandatory")
         @Email(message = "Invalid email format")
         private String email;
+
+        @NotBlank
+        String password;    // 비밀번호 필드 추가
+
+        @NotNull
+        Role role;    // 역할 필드 추가
 
         // 새로운 point 필드 추가
         private Integer point = 0;  // 기본값 0을 설정

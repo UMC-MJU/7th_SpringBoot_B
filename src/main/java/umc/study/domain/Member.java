@@ -9,6 +9,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.Gender;
 import umc.study.domain.enums.MemberStatus;
+import umc.study.domain.enums.Role;
 import umc.study.domain.enums.SocialType;
 import umc.study.domain.mapping.MemberAgree;
 import umc.study.domain.mapping.MemberMission;
@@ -60,6 +61,12 @@ public class Member extends BaseEntity {
     @ColumnDefault("0")
     private Integer point = 0;
 
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberAgree> memberAgreeList = new ArrayList<>();
 
@@ -105,5 +112,9 @@ public class Member extends BaseEntity {
         }
         this.point = point;
     }
+    public void encodePassword(String password) {
+        this.password = password;
+    }
+
 }
 
