@@ -8,6 +8,8 @@ import com.example.study.repository.store.StoreRepository;
 import com.example.study.service.store.StoreCommandService;
 import com.example.study.web.dto.ReviewRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class ReviewServiceImpl implements ReviewService{
     private final ReviewRepository reviewRepository;
     private final StoreCommandService storeCommandService;
+
 
     @Override
     public void register(Member member, Long storeId, ReviewRequest.registerReview request){
@@ -35,4 +38,11 @@ public class ReviewServiceImpl implements ReviewService{
 
         reviewRepository.save(review);
     }
+
+    @Override
+    public Page<Review> getMyReviews(Member member, int page) {
+        return reviewRepository.findAllByMember(member, PageRequest.of(page, 10));
+    }
+
+
 }
